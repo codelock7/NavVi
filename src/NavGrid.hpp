@@ -16,7 +16,7 @@ public:
     void SetBaseSize(int width, int height);
     void Reset(); // Resets to base size and {0, 0}
 
-    // Select sub-square (a: top-left, b: top-right, c: bottom-left, d: bottom-right)
+    // Select sub-square (3x3 grid: r, k, u, h, g, l, v, j, m)
     bool SelectSubGrid(char label);
 
     // Drawing

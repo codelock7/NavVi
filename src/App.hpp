@@ -20,8 +20,6 @@ public:
 
 private:
     void ToggleNav();
-    void HandleKey(char key);
-    void HandleActionKey(WPARAM wParam);
     void PerformClick(bool rightClick);
     void Redraw();
     void CenterCursor();

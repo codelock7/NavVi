@@ -70,9 +70,11 @@ LRESULT App::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
                 PerformClick(shiftPressed);
                 ToggleNav(); // typically you hide it after clicking
             } else {
-                // Map a, b, c, d
+                // Map r, k, u, h, g, l, v, j, m
                 char c = std::tolower(MapVirtualKeyA(wParam, MAPVK_VK_TO_CHAR));
-                if (c == 'a' || c == 'b' || c == 'c' || c == 'd') {
+                if (c == 'r' || c == 'k' || c == 'u' ||
+                    c == 'h' || c == 'g' || c == 'l' ||
+                    c == 'v' || c == 'j' || c == 'm') {
                     if (m_navGrid->SelectSubGrid(c)) {
                         CenterCursor();
                         Redraw();
