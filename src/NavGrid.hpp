@@ -1,0 +1,39 @@
+#pragma once
+
+#include "NavWin.hpp"
+#include "utils.hpp"
+#include <string>
+
+class NavGrid {
+public:
+    NavGrid(NavWin& navWin);
+
+    // Setters for styling
+    void SetColor(const Color& color);
+    void SetThickness(int thickness);
+
+    // Modifiers for coordinate and size
+    void SetBaseSize(int width, int height);
+    void Reset(); // Resets to base size and {0, 0}
+
+    // Select sub-square (a: top-left, b: top-right, c: bottom-left, d: bottom-right)
+    bool SelectSubGrid(char label);
+
+    // Drawing
+    void Draw();
+
+    // Utility
+    void GetCenter(int& outX, int& outY) const;
+    Rect GetCurrentRect() const { return m_currentRect; }
+
+private:
+    NavWin& m_navWin;
+
+    Color m_color;
+    int m_thickness;
+
+    Rect m_baseRect;
+    Rect m_currentRect;
+
+    void DrawTextCentered(const std::string& text, int cx, int cy);
+};
