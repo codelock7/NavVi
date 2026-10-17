@@ -28,33 +28,61 @@ void NavGrid::Reset() {
 }
 
 bool NavGrid::SelectSubGrid(char label) {
-    int halfWidth = m_currentRect.width / 2;
-    int halfHeight = m_currentRect.height / 2;
+    int thirdWidth = m_currentRect.width / 3;
+    int thirdHeight = m_currentRect.height / 3;
 
-    if (halfWidth == 0 || halfHeight == 0) {
+    if (thirdWidth == 0 || thirdHeight == 0) {
         return false; // Can't divide further sensibly
     }
 
     switch (label) {
-        case 'a': // top-left
-            m_currentRect.width = halfWidth;
-            m_currentRect.height = halfHeight;
+        case 'r': // top-left
+            m_currentRect.width = thirdWidth;
+            m_currentRect.height = thirdHeight;
             return true;
-        case 'b': // top-right
-            m_currentRect.x += halfWidth;
-            m_currentRect.width = halfWidth;
-            m_currentRect.height = halfHeight;
+        case 'k': // top-middle
+            m_currentRect.x += thirdWidth;
+            m_currentRect.width = thirdWidth;
+            m_currentRect.height = thirdHeight;
             return true;
-        case 'c': // bottom-left
-            m_currentRect.y += halfHeight;
-            m_currentRect.width = halfWidth;
-            m_currentRect.height = halfHeight;
+        case 'u': // top-right
+            m_currentRect.x += 2 * thirdWidth;
+            m_currentRect.width = thirdWidth;
+            m_currentRect.height = thirdHeight;
             return true;
-        case 'd': // bottom-right
-            m_currentRect.x += halfWidth;
-            m_currentRect.y += halfHeight;
-            m_currentRect.width = halfWidth;
-            m_currentRect.height = halfHeight;
+        case 'h': // middle-left
+            m_currentRect.y += thirdHeight;
+            m_currentRect.width = thirdWidth;
+            m_currentRect.height = thirdHeight;
+            return true;
+        case 'g': // middle-middle
+            m_currentRect.x += thirdWidth;
+            m_currentRect.y += thirdHeight;
+            m_currentRect.width = thirdWidth;
+            m_currentRect.height = thirdHeight;
+            return true;
+        case 'l': // middle-right
+            m_currentRect.x += 2 * thirdWidth;
+            m_currentRect.y += thirdHeight;
+            m_currentRect.width = thirdWidth;
+            m_currentRect.height = thirdHeight;
+            return true;
+        case 'v': // bottom-left
+            m_currentRect.y += 2 * thirdHeight;
+            m_currentRect.width = thirdWidth;
+            m_currentRect.height = thirdHeight;
+            return true;
+        case 'j': // bottom-middle
+            m_currentRect.x += thirdWidth;
+            m_currentRect.y += 2 * thirdHeight;
+            m_currentRect.width = thirdWidth;
+            m_currentRect.height = thirdHeight;
+            return true;
+        case 'm': // bottom-right
+            m_currentRect.x += 2 * thirdWidth;
+            m_currentRect.y += 2 * thirdHeight;
+            m_currentRect.width = thirdWidth;
+            m_currentRect.height = thirdHeight;
             return true;
         default:
             return false;
@@ -70,21 +98,43 @@ void NavGrid::Draw() {
     // Draw outer contour
     m_navWin.DrawRect(m_currentRect.x, m_currentRect.y, m_currentRect.width, m_currentRect.height, m_thickness, m_color);
 
-    // Draw cross
-    int midX = m_currentRect.x + m_currentRect.width / 2;
-    int midY = m_currentRect.y + m_currentRect.height / 2;
+    int thirdWidth = m_currentRect.width / 3;
+    int thirdHeight = m_currentRect.height / 3;
 
-    m_navWin.DrawLine(midX, m_currentRect.y, midX, m_currentRect.y + m_currentRect.height, m_thickness, m_color);
-    m_navWin.DrawLine(m_currentRect.x, midY, m_currentRect.x + m_currentRect.width, midY, m_thickness, m_color);
+    // Draw 2 vertical lines
+    m_navWin.DrawLine(m_currentRect.x + thirdWidth, m_currentRect.y,
+                      m_currentRect.x + thirdWidth, m_currentRect.y + m_currentRect.height,
+                      m_thickness, m_color);
+    m_navWin.DrawLine(m_currentRect.x + 2 * thirdWidth, m_currentRect.y,
+                      m_currentRect.x + 2 * thirdWidth, m_currentRect.y + m_currentRect.height,
+                      m_thickness, m_color);
 
-    // Draw labels in centers of 4 quadrants
-    int qWidth = m_currentRect.width / 4;
-    int qHeight = m_currentRect.height / 4;
+    // Draw 2 horizontal lines
+    m_navWin.DrawLine(m_currentRect.x, m_currentRect.y + thirdHeight,
+                      m_currentRect.x + m_currentRect.width, m_currentRect.y + thirdHeight,
+                      m_thickness, m_color);
+    m_navWin.DrawLine(m_currentRect.x, m_currentRect.y + 2 * thirdHeight,
+                      m_currentRect.x + m_currentRect.width, m_currentRect.y + 2 * thirdHeight,
+                      m_thickness, m_color);
 
-    DrawTextCentered("a", m_currentRect.x + qWidth, m_currentRect.y + qHeight);
-    DrawTextCentered("b", midX + qWidth, m_currentRect.y + qHeight);
-    DrawTextCentered("c", m_currentRect.x + qWidth, midY + qHeight);
-    DrawTextCentered("d", midX + qWidth, midY + qHeight);
+    // Draw labels in centers of 9 sub-squares
+    int qWidth = m_currentRect.width / 6;
+    int qHeight = m_currentRect.height / 6;
+
+    // Row 1
+    DrawTextCentered("r", m_currentRect.x + qWidth, m_currentRect.y + qHeight);
+    DrawTextCentered("k", m_currentRect.x + 3 * qWidth, m_currentRect.y + qHeight);
+    DrawTextCentered("u", m_currentRect.x + 5 * qWidth, m_currentRect.y + qHeight);
+
+    // Row 2
+    DrawTextCentered("h", m_currentRect.x + qWidth, m_currentRect.y + 3 * qHeight);
+    DrawTextCentered("g", m_currentRect.x + 3 * qWidth, m_currentRect.y + 3 * qHeight);
+    DrawTextCentered("l", m_currentRect.x + 5 * qWidth, m_currentRect.y + 3 * qHeight);
+
+    // Row 3
+    DrawTextCentered("v", m_currentRect.x + qWidth, m_currentRect.y + 5 * qHeight);
+    DrawTextCentered("j", m_currentRect.x + 3 * qWidth, m_currentRect.y + 5 * qHeight);
+    DrawTextCentered("m", m_currentRect.x + 5 * qWidth, m_currentRect.y + 5 * qHeight);
 }
 
 void NavGrid::DrawTextCentered(const std::string& text, int cx, int cy) {
