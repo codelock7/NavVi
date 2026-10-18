@@ -17,7 +17,8 @@ public:
     void Reset(); // Resets to base size and {0, 0}
 
     // Select sub-square (3x3 grid: r, k, u, h, g, l, v, j, m)
-    bool SelectSubGrid(char label);
+    // If expand is true, the selected sub-square is enlarged by 1.5x keeping its center.
+    bool SelectSubGrid(char label, bool expand = false);
 
     // Drawing
     void Draw();

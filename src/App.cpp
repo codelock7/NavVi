@@ -79,10 +79,11 @@ LRESULT App::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
             } else {
                 // Map r, k, u, h, g, l, v, j, m
                 char c = std::tolower(MapVirtualKeyA(wParam, MAPVK_VK_TO_CHAR));
+                bool shiftPressed = (GetAsyncKeyState(VK_SHIFT) & 0x8000) != 0;
                 if (c == 'r' || c == 'k' || c == 'u' ||
                     c == 'h' || c == 'g' || c == 'l' ||
                     c == 'v' || c == 'j' || c == 'm') {
-                    if (m_navGrid->SelectSubGrid(c)) {
+                    if (m_navGrid->SelectSubGrid(c, shiftPressed)) {
                         Redraw();
                     }
                 }

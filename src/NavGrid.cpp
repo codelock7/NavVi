@@ -27,7 +27,7 @@ void NavGrid::Reset() {
     m_currentRect = m_baseRect;
 }
 
-bool NavGrid::SelectSubGrid(char label) {
+bool NavGrid::SelectSubGrid(char label, bool expand) {
     int thirdWidth = m_currentRect.width / 3;
     int thirdHeight = m_currentRect.height / 3;
 
@@ -35,58 +35,78 @@ bool NavGrid::SelectSubGrid(char label) {
         return false; // Can't divide further sensibly
     }
 
+    Rect newRect = m_currentRect;
+    bool matched = true;
+
     switch (label) {
         case 'r': // top-left
-            m_currentRect.width = thirdWidth;
-            m_currentRect.height = thirdHeight;
-            return true;
+            newRect.width = thirdWidth;
+            newRect.height = thirdHeight;
+            break;
         case 'k': // top-middle
-            m_currentRect.x += thirdWidth;
-            m_currentRect.width = thirdWidth;
-            m_currentRect.height = thirdHeight;
-            return true;
+            newRect.x += thirdWidth;
+            newRect.width = thirdWidth;
+            newRect.height = thirdHeight;
+            break;
         case 'u': // top-right
-            m_currentRect.x += 2 * thirdWidth;
-            m_currentRect.width = thirdWidth;
-            m_currentRect.height = thirdHeight;
-            return true;
+            newRect.x += 2 * thirdWidth;
+            newRect.width = thirdWidth;
+            newRect.height = thirdHeight;
+            break;
         case 'h': // middle-left
-            m_currentRect.y += thirdHeight;
-            m_currentRect.width = thirdWidth;
-            m_currentRect.height = thirdHeight;
-            return true;
+            newRect.y += thirdHeight;
+            newRect.width = thirdWidth;
+            newRect.height = thirdHeight;
+            break;
         case 'g': // middle-middle
-            m_currentRect.x += thirdWidth;
-            m_currentRect.y += thirdHeight;
-            m_currentRect.width = thirdWidth;
-            m_currentRect.height = thirdHeight;
-            return true;
+            newRect.x += thirdWidth;
+            newRect.y += thirdHeight;
+            newRect.width = thirdWidth;
+            newRect.height = thirdHeight;
+            break;
         case 'l': // middle-right
-            m_currentRect.x += 2 * thirdWidth;
-            m_currentRect.y += thirdHeight;
-            m_currentRect.width = thirdWidth;
-            m_currentRect.height = thirdHeight;
-            return true;
+            newRect.x += 2 * thirdWidth;
+            newRect.y += thirdHeight;
+            newRect.width = thirdWidth;
+            newRect.height = thirdHeight;
+            break;
         case 'v': // bottom-left
-            m_currentRect.y += 2 * thirdHeight;
-            m_currentRect.width = thirdWidth;
-            m_currentRect.height = thirdHeight;
-            return true;
+            newRect.y += 2 * thirdHeight;
+            newRect.width = thirdWidth;
+            newRect.height = thirdHeight;
+            break;
         case 'j': // bottom-middle
-            m_currentRect.x += thirdWidth;
-            m_currentRect.y += 2 * thirdHeight;
-            m_currentRect.width = thirdWidth;
-            m_currentRect.height = thirdHeight;
-            return true;
+            newRect.x += thirdWidth;
+            newRect.y += 2 * thirdHeight;
+            newRect.width = thirdWidth;
+            newRect.height = thirdHeight;
+            break;
         case 'm': // bottom-right
-            m_currentRect.x += 2 * thirdWidth;
-            m_currentRect.y += 2 * thirdHeight;
-            m_currentRect.width = thirdWidth;
-            m_currentRect.height = thirdHeight;
-            return true;
+            newRect.x += 2 * thirdWidth;
+            newRect.y += 2 * thirdHeight;
+            newRect.width = thirdWidth;
+            newRect.height = thirdHeight;
+            break;
         default:
-            return false;
+            matched = false;
+            break;
     }
+
+    if (!matched) return false;
+
+    if (expand) {
+        int cx = newRect.x + newRect.width / 2;
+        int cy = newRect.y + newRect.height / 2;
+
+        newRect.width = (int)(newRect.width * 1.5f);
+        newRect.height = (int)(newRect.height * 1.5f);
+
+        newRect.x = cx - newRect.width / 2;
+        newRect.y = cy - newRect.height / 2;
+    }
+
+    m_currentRect = newRect;
+    return true;
 }
 
 void NavGrid::GetCenter(int& outX, int& outY) const {
