@@ -117,27 +117,30 @@ void NavGrid::Draw() {
                       m_currentRect.x + m_currentRect.width, m_currentRect.y + 2 * thirdHeight,
                       m_thickness, m_color);
 
-    // Draw labels in centers of 9 sub-squares
+    // Draw crosshairs in centers of 9 sub-squares
     int qWidth = m_currentRect.width / 6;
     int qHeight = m_currentRect.height / 6;
 
     // Row 1
-    DrawTextCentered("r", m_currentRect.x + qWidth, m_currentRect.y + qHeight);
-    DrawTextCentered("k", m_currentRect.x + 3 * qWidth, m_currentRect.y + qHeight);
-    DrawTextCentered("u", m_currentRect.x + 5 * qWidth, m_currentRect.y + qHeight);
+    DrawCrosshairCentered(m_currentRect.x + qWidth, m_currentRect.y + qHeight);
+    DrawCrosshairCentered(m_currentRect.x + 3 * qWidth, m_currentRect.y + qHeight);
+    DrawCrosshairCentered(m_currentRect.x + 5 * qWidth, m_currentRect.y + qHeight);
 
     // Row 2
-    DrawTextCentered("h", m_currentRect.x + qWidth, m_currentRect.y + 3 * qHeight);
-    DrawTextCentered("g", m_currentRect.x + 3 * qWidth, m_currentRect.y + 3 * qHeight);
-    DrawTextCentered("l", m_currentRect.x + 5 * qWidth, m_currentRect.y + 3 * qHeight);
+    DrawCrosshairCentered(m_currentRect.x + qWidth, m_currentRect.y + 3 * qHeight);
+    DrawCrosshairCentered(m_currentRect.x + 3 * qWidth, m_currentRect.y + 3 * qHeight);
+    DrawCrosshairCentered(m_currentRect.x + 5 * qWidth, m_currentRect.y + 3 * qHeight);
 
     // Row 3
-    DrawTextCentered("v", m_currentRect.x + qWidth, m_currentRect.y + 5 * qHeight);
-    DrawTextCentered("j", m_currentRect.x + 3 * qWidth, m_currentRect.y + 5 * qHeight);
-    DrawTextCentered("m", m_currentRect.x + 5 * qWidth, m_currentRect.y + 5 * qHeight);
+    DrawCrosshairCentered(m_currentRect.x + qWidth, m_currentRect.y + 5 * qHeight);
+    DrawCrosshairCentered(m_currentRect.x + 3 * qWidth, m_currentRect.y + 5 * qHeight);
+    DrawCrosshairCentered(m_currentRect.x + 5 * qWidth, m_currentRect.y + 5 * qHeight);
 }
 
-void NavGrid::DrawTextCentered(const std::string& text, int cx, int cy) {
-    // 20 pixels font size for example
-    m_navWin.DrawText(text, cx, cy, "Arial", 20, m_color);
+void NavGrid::DrawCrosshairCentered(int cx, int cy) {
+    // 3x3 pixel crosshair means:
+    // a vertical 1x3 bar centered at (cx, cy)
+    // a horizontal 3x1 bar centered at (cx, cy)
+    m_navWin.DrawFilledRect(cx, cy - 1, 1, 3, m_color);
+    m_navWin.DrawFilledRect(cx - 1, cy, 3, 1, m_color);
 }

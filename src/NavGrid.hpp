@@ -35,5 +35,5 @@ private:
     Rect m_baseRect;
     Rect m_currentRect;
 
-    void DrawTextCentered(const std::string& text, int cx, int cy);
+    void DrawCrosshairCentered(int cx, int cy);
 };
