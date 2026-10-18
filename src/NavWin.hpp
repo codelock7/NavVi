@@ -21,6 +21,7 @@ public:
     void DrawLine(int x1, int y1, int x2, int y2, int thickness, const Color& color);
     void DrawText(const std::string& text, int x, int y, const std::string& fontName, int fontSize, const Color& color);
     void DrawRect(int x, int y, int width, int height, int thickness, const Color& color);
+    void DrawFilledRect(int x, int y, int width, int height, const Color& color);
 
     // Operations
     void Clear();

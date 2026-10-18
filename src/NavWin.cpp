@@ -196,6 +196,15 @@ void NavWin::DrawRect(int x, int y, int width, int height, int thickness, const 
     graphics.DrawRectangle(&pen, x, y, width, height);
 }
 
+void NavWin::DrawFilledRect(int x, int y, int width, int height, const ::Color& color) {
+    if (!m_memDC) return;
+    Gdiplus::Graphics graphics(m_memDC);
+    graphics.SetSmoothingMode(Gdiplus::SmoothingModeNone); // Prefer non-antialiased for precise pixel drawing
+
+    Gdiplus::SolidBrush brush(Gdiplus::Color(color.a, color.r, color.g, color.b));
+    graphics.FillRectangle(&brush, x, y, width, height);
+}
+
 void NavWin::DrawText(const std::string& text, int x, int y, const std::string& fontName, int fontSize, const ::Color& color) {
     if (!m_memDC) return;
     Gdiplus::Graphics graphics(m_memDC);

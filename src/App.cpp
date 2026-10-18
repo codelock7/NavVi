@@ -58,15 +58,22 @@ LRESULT App::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
             }
             return 0;
 
+        case WM_KILLFOCUS:
+            if (m_navWin->IsVisible()) {
+                m_navWin->Hide();
+                m_navGrid->Reset();
+            }
+            return 0;
+
         case WM_KEYDOWN: {
             if (!m_navWin->IsVisible()) break;
 
             if (wParam == VK_ESCAPE) {
                 m_navGrid->Reset();
-                CenterCursor();
                 Redraw();
             } else if (wParam == VK_RETURN) {
                 bool shiftPressed = (GetAsyncKeyState(VK_SHIFT) & 0x8000) != 0;
+                CenterCursor();
                 PerformClick(shiftPressed);
                 ToggleNav(); // typically you hide it after clicking
             } else {
@@ -76,7 +83,6 @@ LRESULT App::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
                     c == 'h' || c == 'g' || c == 'l' ||
                     c == 'v' || c == 'j' || c == 'm') {
                     if (m_navGrid->SelectSubGrid(c)) {
-                        CenterCursor();
                         Redraw();
                     }
                 }
@@ -112,7 +118,6 @@ void App::ToggleNav() {
         // Give window focus so it receives keyboard events
         SetForegroundWindow(m_navWin->GetHWND());
         SetFocus(m_navWin->GetHWND());
-        CenterCursor();
         Redraw();
     }
 }
